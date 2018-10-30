@@ -1,0 +1,115 @@
+<!doctype html>
+<html ng-app="travelBook">
+
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.3.js"></script>
+  <script src="app.js"></script>
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak {
+      display: none !important;
+    }
+    
+    .ng-invalid.ng-dirty {
+      border-color: #FA787E;
+    }
+    
+    .ng-valid.ng-dirty {
+      border-color: #78FA89;
+    }
+    
+    .form-control[readonly] {
+      background: transparent;
+      cursor: text;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Travel Booking Form</h1>
+    <div ng-controller="travelBookCtrl">
+      <tabset>
+        <tab heading="Step 1">
+          <form name="data.step1form">
+            <br>
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="data.firstName" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="data.lastName" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Email" ng-model="data.email" required>
+            </div>
+            <div class="form-group">
+              <label for="Phone">Phone</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Phone" ng-model="data.phone" required>
+            </div>
+            <button class="btn btn-primary" ng-disabled="!validateStep1()" ng-click="gotoStep2()">Next</button>
+          </form>
+        </tab>
+
+        <tab heading="Step 2" disable="step2.disabled" active="step2.active">
+          <form name="data.step2form">
+            <br>
+            <div class="form-group">
+              <label for="Locations">Locations</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.subjectList.$error.required">Required!</span>
+              <select name="subjectList" data-ng-model="data.location" class="form-control" required>
+                <option ng-repeat="loc in locations" value="{{loc}}">Enter</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Mexico</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">France</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">London</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Banglore</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Kolkata</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Goa</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Russia</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Syria</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">China</option>
+				 <option ng-repeat="loc in locations" value="{{loc}}">Japan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Date Depart</label>
+              <div class="form-group input-group">
+                <input datepicker-popup="MMM dd, yyyy" readonly ng-focus="toggleOpen($event,'departOpened')" is-open="departOpened" close-text="Close" type="text" ng-model="data.dateDepart" class="form-control" placeholder="Date Depart" required>
+                <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="toggleOpen($event,'departOpened')"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Date Return</label>
+              <div class="form-group input-group">
+                <input datepicker-popup="MMM dd, yyyy" readonly ng-focus="toggleOpen($event,'returnOpened')" is-open="returnOpened" close-text="Close" type="text" ng-model="data.dateReturn" class="form-control" placeholder="Date Return" required>
+                <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="toggleOpen($event,'returnOpened')"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+              </div>
+            </div>
+            <button onclick="location.href = 'https://flightapp-e096d.firebaseapp.com';" id="myButton" class="float-left submit-button" >Lets Visit</button>
+          </form>
+        </tab>
+        <tab heading="Step 3" disable="step3.disabled" active="step3.active">
+          <div>
+            <br>
+            <a ng-href="mailto:{{data.email}}">{{data.firstName}} {{data.lastName}}</a> ({{data.phone}}) will depart for {{data.location}} on {{data.dateDepart | date}} and return on {{data.dateReturn | date}}.
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</body>
+
+</html>
